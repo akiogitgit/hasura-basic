@@ -1,0 +1,74 @@
+import { gql } from "@apollo/client";
+
+// usersの内容取得
+export const GET_USERS = gql`
+    query GetUsers{
+        users(order_by: {created_at: desc}) {
+            id
+            name
+            created_at
+        }
+    }
+`
+// localのusersの内容取得
+export const GET_USERS_LOCAL = gql`
+    query GetUsers{
+        users(order_by: {created_at: desc}) @client {
+            id
+            name
+            created_at
+        }
+    }
+`
+// usersのIDのみ取得
+export const GET_USERIDS = gql`
+    query GetUserIds{
+        users(order_by: {created_at: desc}) {
+            id
+        }
+    }
+`
+
+// 指定したidのuserを取得
+export const GET_USERBY_ID = gql`
+    query GetUserById($id: uuid!){
+        users_by_pk(id: $id) {
+            id
+            name
+            created_at
+        }
+    }
+`
+
+// 指定したnameのuserを作成
+export const CREATE_USER = gql`
+    mutation CreateUser($name: String!){
+        insert_users_one(object: {name: $name}) {
+            id
+            name
+            created_at
+        }
+    }
+`
+
+// 指定したidのuserを削除
+export const DELETE_USER=gql`
+    mutation DeleteUser($id: uuid!){
+        delete_users_by_pk(id: $id) {
+            id
+            name
+            created_at
+        }
+    }
+`
+
+// 指定した..なんだこれ...？
+export const UPDATE_USER=gql`
+    mutation UpdateUser($id: uuid!, $name: String!){
+        update_users_by_pk(pk_columns: {id: $id}, _set: {name:$name}) {
+            id
+            name
+            created_at
+        }
+    }
+`
