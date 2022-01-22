@@ -8,13 +8,14 @@ import { GET_USERS } from "../queries/queries";
 import { GetUsersQuery, Users } from "../types/generated/graphql";
 import { Layout } from "../components/Layout";
 
+// 一番下で定義した props: usersの型をつける
 interface Props{
     users: ({
         __typename?: "users" // types/graphqlで定義したUsersの型からPick
     } & Pick<Users, "id" | "name" | "created_at">)[]// 配列
 }
 
-// Propsは今更だけど、引数の型
+// Propsは今更だけど、引数の型　　上で定義したのを使う
 const HasuraSSG: VFC<Props> = ({users})=>{
     return(
         <Layout title="Hasura SSG">
@@ -41,9 +42,9 @@ export const getStaticProps: GetStaticProps = async () => {
     const {data} = await apolloClient.query<GetUsersQuery>({
         query: GET_USERS,
     })
-    return {
+    return { // １Propsの users を返す
         props: { users: data.users},
         // これないと、SSG(build後の変更は無視)
-        revalidate: 10, // 秒　ISR(Incremental Static Regeneration 
+        revalidate: 10, // 秒毎に再生成　ISR
     }
 }
