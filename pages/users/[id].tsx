@@ -56,7 +56,7 @@ const Userdetail: VFC<Props> = ({ user }) => {
 export const getStaticPaths: GetStaticPaths = async() => {
     const apolloClient = initializeApollo()
     const {data} = await apolloClient.query<GetUserIdsQuery>({
-        query: GET_USERBY_ID,
+        query: GET_USERIDS,
     })
     // nextで個別ページを作るテンプレ
     const paths = data.users.map((user)=>({
