@@ -10,7 +10,7 @@ export const GET_USERS = gql`
         }
     }
 `
-// localのusersの内容取得
+// @clientにあるcacheのusersの内容取得
 export const GET_USERS_LOCAL = gql`
     query GetUsers{
         users(order_by: {created_at: desc}) @client {

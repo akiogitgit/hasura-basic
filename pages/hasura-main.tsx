@@ -4,12 +4,17 @@ import { useQuery } from "@apollo/client";
 import { Layout } from "../components/Layout";
 // hasuraで使うコマンド
 import { GET_USERS } from "../queries/queries";
-// 上のコマンドの型を定義している
+// 上のコマンドの型を定義している(上の型にあってるのが、これ)
 import { GetUsersQuery } from "../types/generated/graphql";
 
 const FetchMain:VFC=()=>{
-    //     内容 err発生 ローディング中        型沢山あるやつ 使うコマンド
-    const {data, error,loading} = useQuery<GetUsersQuery>(GET_USERS)
+    //     内容 err発生 ローディング中        右の型　　　　 使うコマンド
+    const {data, error,loading} = useQuery<GetUsersQuery>(GET_USERS,{
+        // fetchPolicy: "network-only",//毎度0から取得する
+        fetchPolicy: "cache-and-network",//戻った時はcacheで表示し、その後新しく取得
+        // fetchPolicy: "cache-first",//デフォルト、cacheあるならcache見る。取得が変わらない時使う
+        // fetchPolicy: "no-cache", //cacheが作られない subが死ぬ
+    })
     if(error){
         return(
             <Layout title="Hasura fetchPolicy">
