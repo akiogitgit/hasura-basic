@@ -43,6 +43,7 @@ export const getStaticProps: GetStaticProps = async () => {
     })
     return {
         props: { users: data.users},
-        revalidate: 1, // 秒　ISR(Incremental Static Regeneration 
+        // これないと、SSG(build後の変更は無視)
+        revalidate: 10, // 秒　ISR(Incremental Static Regeneration 
     }
 }

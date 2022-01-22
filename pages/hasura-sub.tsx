@@ -5,10 +5,11 @@ import { GET_USERS, GET_USERS_LOCAL } from "../queries/queries";
 import { GetUsersQuery } from "../types/generated/graphql";
 import { Layout } from "../components/Layout";
 
-//eslint-disable-next-line react-hooks/rules-of-hooks
-const fetchSub:VFC=()=>{
+const fetchSub:VFC=()=>{ 
+    /* eslint-disable */
+
     // cacheで取得してる
-    const {data,error}=useQuery<GetUsersQuery>(GET_USERS_LOCAL)
+    const {data,error, loading}=useQuery<GetUsersQuery>(GET_USERS_LOCAL)
     
     if(error){
         return(
@@ -35,6 +36,7 @@ const fetchSub:VFC=()=>{
             </Link>
         </Layout>
     )
+    /* eslint-enable */
 }
 
 export default fetchSub
