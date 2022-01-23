@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { render, screen, cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import userEvent from "@testing-library/user-event"
@@ -29,6 +32,8 @@ describe("Navigation Test Cases", () => {
             route: "/",
         })
         render(page)
+
+        // 意外とエラー出てないからOK
         // Next.js + GraphQL　この文字を取得するまで待つ
         expect(await screen.findByText("Next.js + GraphQL")).toBeInTheDocument()
         
@@ -36,6 +41,16 @@ describe("Navigation Test Cases", () => {
         userEvent.click(screen.getByTestId("makevar-nav"))
         // LocalStateA にある makeVarの文字をチェック
         expect(await screen.findByText("makeVar")).toBeInTheDocument()
+        userEvent.click(screen.getByTestId("fetchpolicy-nav"))
+        expect(await screen.findByText("Hasura main page")).toBeInTheDocument()
+        userEvent.click(screen.getByTestId("crud-nav"))
+        expect(await screen.findByText("Hasura CRUD")).toBeInTheDocument()
+        userEvent.click(screen.getByTestId("ssg-nav"))
+        expect(await screen.findByText("SSG+ISR")).toBeInTheDocument()
+        userEvent.click(screen.getByTestId("memo-nav"))
+        expect(await screen.findByText("Custom Hook + useCallback + memo")).toBeInTheDocument()
+        userEvent.click(screen.getByTestId("home-nav"))
+        expect(await screen.findByText("Next.js + GraphQL")).toBeInTheDocument()
     })
 })
 
