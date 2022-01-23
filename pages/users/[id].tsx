@@ -17,6 +17,7 @@ interface Props{
     } & Pick<Users, "id" | "name" | "created_at">
 }
 
+// 表示する部分
 const Userdetail: VFC<Props> = ({ user }) => {
     if(!user){ // データ存在しない
         return <Layout title="loadint">Loading...</Layout>
@@ -36,7 +37,7 @@ const Userdetail: VFC<Props> = ({ user }) => {
                 {user.created_at}
             </p>
             {/* eslint-disable */}
-            <Link href="./hasura-ssg">
+            <Link href="/hasura-ssg">
                 <div className="flex cursor-pointer mt-12">
                     <ChevronDoubleLeftIcon
                         data-testid="auth-to-main"
@@ -53,24 +54,27 @@ const Userdetail: VFC<Props> = ({ user }) => {
     )
 }
 
+// /user/001 とかのURLでアクセス可能な　user/[id]ページ
+// URL のパラメーター部分（id）で指定可能な値を返す
 export const getStaticPaths: GetStaticPaths = async() => {
     const apolloClient = initializeApollo()
     const {data} = await apolloClient.query<GetUserIdsQuery>({
         query: GET_USERIDS,
     })
-    // nextで個別ページを作るテンプレ
+    // nextで個別ページを作るテンプレ（user/[id].tsxの idを全てpathに加えている）
     const paths = data.users.map((user)=>({
         params:{
             id: user.id
         },
     }))
-
+    // paths fallbackを返して、pathを通るようにする
     return{
         paths,
         fallback: true // 個別ページを動的に増やせる
     }
 }
 
+// 上で定義した paramsを使ってISRでgqlして、上のメインの関数でuserを使用する
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const apolloClient = initializeApollo()
     const { data } = await apolloClient.query<GetUserByIdQuery>({
