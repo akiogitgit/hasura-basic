@@ -8,10 +8,11 @@ import { getPage, initTestHelpers } from "next-page-tester"
 import { setupServer } from "msw/node"
 import { handlers } from '../mock/handlers'
 
-// next page tester
 initTestHelpers()
 
+// テスト用のモックサーバーを立てる
 const server = setupServer(...handlers)
+
 beforeAll(() => {
     server.listen() // 起動
 })
@@ -23,13 +24,16 @@ afterAll(() => {
     server.close() // 終了
 })
 
-describe("Hasura Fetch Test Cases",()=>{
+describe("SSG Test Cases", () => {
     it("Should render the list of users by useQuery", async () => {
         const { page } = await getPage({
-            route: "/hasura-main",
+            route: "/hasura-ssg",
         })
         render(page)
-        expect(await screen.findByText("Hasura main page")).toBeInTheDocument()
-        // expect(await screen.findByText("user1")).toBeInTheDocument()
+        expect(await screen.findByText("SSG+ISR")).toBeInTheDocument()
+        expect(await screen.findByText("user1")).toBeInTheDocument()
+        expect(await screen.findByText("user2")).toBeInTheDocument()
+        expect(await screen.findByText("user3")).toBeInTheDocument()
     })
 })
+

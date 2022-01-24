@@ -22,7 +22,7 @@ export const handlers = [
                     {
                         __typename: "users",
                         id: "3bd6365b-a8f8-4dbc-9731-767f8461bcc2",
-                        name: "user3 cahngeed",
+                        name: "user3",
                         created_at: "2022-01-20T00:00:28.663872+00:00"
                     },
                 ]
@@ -82,7 +82,7 @@ export const handlers = [
                     users_by_pk:{
                         __typename: "users",
                         id: "3bd6365b-a8f8-4dbc-9731-767f8461bcc2",
-                        name: "user3 cahngeed",
+                        name: "user3",
                         created_at: "2022-01-20T00:00:28.663872+00:00"
                     },
                 })
